@@ -17,7 +17,7 @@ Installation Project:
    - LINE_CHANNEL_SECRET=xxxxxxxxxxxxxxx (xxxxxxxxxxxxxxx is your credential)
    - LINE_ACCESSTOKEN=xxxxxxxxxxxxxxx (xxxxxxxxxxxxxxx is your credential)
  - open terminal and cd path of project.
- - run command 'docker-compose up -d' and waiting about 3 - 5 mins.
+ - run command 'docker-compose up -d' and waiting about 3 - 5 mins for build and run project in first time.
  - open https://localhost:3030 on your browser for checking server is running.
  - when downloaded ngrok and make sure can run for open port in normally, open terminal and run command 'ngrok http 3030' wait a sec terminal will be display ngrok information and copy Forwarding URL (ex: https://4470f05d.ngrok.io) make sure protocol is https because LINE allow only https protocol.
  - Setting Webhook URL by Go to Messenging API setting in LINE developer console,
