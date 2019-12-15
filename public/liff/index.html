@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="/stylesheets/liff.css">
+  <script src="/javascripts/axios/axios.min.js"></script>
+  <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
+  <title>Line Cafe</title>
+</head>
+<body>
+  <div class="container head">
+    <div class="page-header">
+        <div class="page-header-title">Welcome to Line Cafe</div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+        <h5 class="col-12 middle-title">กรุณาเลือกเครื่องดื่มที่ต้องการ</h5>
+    </div>
+    <div class="card-group scrolling-wrapper-flexbox" id="product_box"></div>
+  </div>
+  <script>
+    const parse = Range.prototype.createContextualFragment.bind(document.createRange());
+    axios.get(`${window.location.origin}/products`)
+    .then((res) => {
+      if (res.data && res.data.length > 0) {
+        const productBox = document.getElementById('product_box');
+        res.data.forEach(element => {
+          const div = document.createElement('div');
+          const newDiv =
+            `<div class="card" onclick="handleSubmitMenu('${element.product_name}');">
+              <img class="card-img-top card-images" src="${element.product_image}" alt="product" />
+              <div class="card-body">
+                <h6 class="card-title price">${element.product_name}</h6>
+                <h6 class="card-title">ราคา: <span class="price">${element.product_price}</span> บาท</h6>
+              </div>
+            </div>`;
+            productBox.appendChild(parse(newDiv));
+        });
+      }
+    })
+    .catch((err) => console.log(err));
+
+    handleSubmitMenu = productName => {
+      if (productName) {
+        liff
+        .init({
+          liffId: '1629935044-OP1BBAkA' // TODO: edit liffid
+        })
+        .then(() => {
+          liff.sendMessages([{
+            'type': 'text',
+            'text': `menu-${productName}`
+          }]).then(() => {
+              window.alert(`เมนูของคุณคือ ${productName} กรุณารอสักครู่`);
+              liff.closeWindow();
+          }).catch((error) => {
+              window.alert('Error sending message: ' + error);
+              liff.closeWindow();
+          });
+        })
+        .catch((err) => {
+          console.log(err.code, err.message);
+        });
+      }
+    }
+  </script>
+</body>

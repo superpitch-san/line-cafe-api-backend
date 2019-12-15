@@ -1,0 +1,26 @@
+.head {
+  background: #916B64;
+  height: 10vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.page-header {
+  text-align: center;
+}
+.page-header-title {
+  font-size: 30px;
+  color: #ffffff;
+}
+.middle-title {
+  text-align: center;
+  margin: 10px 0px;
+}
+/* .scrolling-wrapper-flexbox {
+  overflow: scroll;
+  height: 530px;
+} */
+.price {
+  font-size: 20px;
+  color:  #00b900;
+}

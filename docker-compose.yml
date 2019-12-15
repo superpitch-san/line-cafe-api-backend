@@ -1,0 +1,38 @@
+version: "3.4"
+services: 
+  db:
+    image: "postgres:9.6"
+    container_name: line-postgres
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=linedb
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./create.sql:/docker-entrypoint-initdb.d/create.sql
+  line-corebot:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: line-corebot
+    command: sh  -c 'node ./bin/www'
+    working_dir: /app/line-corebot
+    volumes:
+      - .:/app/line-corebot
+      - /app/line-corebot/node_modules
+    ports:
+      - '3030:3030'
+    restart: 'always'
+    environment: 
+      - LINE_ACCESSTOKEN=
+      - LINE_CHANNEL_SECRET=
+      - PORT=3030
+      - POSTGRESQL_USERNAME=root
+      - POSTGRESQL_PASSWORD=root
+      - POSTGRESQL_HOST=db
+      - POSTGRESQL_PORT=5432
+      - POSTGRESQL_DBNAME=linedb
+      - FCM_TOKEN=
+      - FCM_SERVER_KEY=
+      - FCM_URL=
